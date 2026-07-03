@@ -1,0 +1,40 @@
+// --- Fungsi Audio Player ---
+const playAudioBtn = document.getElementById('play-audio-btn');
+const birdSound = document.getElementById('bird-sound');
+let isPlaying = false;
+
+playAudioBtn.addEventListener('click', () => {
+    if (!isPlaying) {
+        birdSound.play().then(() => {
+            playAudioBtn.innerHTML = '<span class="icon">⏸️</span> Pause Suara';
+            isPlaying = true;
+        }).catch(err => console.log("Audio play blocked/error:", err));
+    } else {
+        birdSound.pause();
+        playAudioBtn.innerHTML = '<span class="icon">▶️</span> Dengarkan Suara Burung';
+        isPlaying = false;
+    }
+});
+
+// --- Logika Kuis Interaktif ---
+function checkAnswer(isCorrect, element) {
+    const feedback = document.getElementById('quiz-feedback');
+    const allButtons = document.querySelectorAll('.opt-btn');
+    
+    // Matikan semua tombol setelah menjawab
+    allButtons.forEach(btn => btn.disabled = true);
+    
+    feedback.classList.remove('hidden');
+    
+    if (isCorrect) {
+        element.style.background = '#4caf50';
+        element.style.color = 'white';
+        feedback.className = "quiz-feedback correct";
+        feedback.innerHTML = "✨ Benar! Cendet Madura merupakan varietas burung endemik/sangat populer yang berasal dari Pulau Madura, Jawa Timur. Skor kamu +10!";
+    } else {
+        element.style.background = '#c94a29';
+        element.style.color = 'white';
+        feedback.className = "quiz-feedback wrong";
+        feedback.innerHTML = "❌ Kurang tepat. Jawabannya adalah B. Madura! Burung ini sangat terkenal dengan performa dan karakter aslinya di sana.";
+    }
+}
